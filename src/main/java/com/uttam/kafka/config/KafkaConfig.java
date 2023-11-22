@@ -30,6 +30,7 @@ public class KafkaConfig {
     private String valueSerializer;
 
     
+    //consumer container bean
     @Bean
     ConsumerFactory<String, Object> consumerFactory() {
     Map<String, Object> configProps = new HashMap<>();
@@ -40,22 +41,7 @@ public class KafkaConfig {
     configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
     configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     return new DefaultKafkaConsumerFactory<>(configProps);
-  }
-
-    @Bean
-    ProducerFactory<String, Object> producerFactory() {
-    Map<String, Object> props = new HashMap<>();
-    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
-    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
-    return new DefaultKafkaProducerFactory<String, Object>(props);
-  }
-
-    @Bean
-    KafkaTemplate<String, Object> kafkaTemplate() {
-    var kafkaTemplate = new KafkaTemplate<>(producerFactory());
-    return kafkaTemplate;
-  }
+    }
     
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory() {
@@ -63,4 +49,24 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
+    
+    
+    
+    //producer for user
+    @Bean
+    ProducerFactory<String, Object> producerFactory() {
+    Map<String, Object> props = new HashMap<>();
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
+    return new DefaultKafkaProducerFactory<String, Object>(props);
+    }
+
+    @Bean
+    KafkaTemplate<String, Object> kafkaTemplate() {
+    var kafkaTemplate = new KafkaTemplate<>(producerFactory());
+    return kafkaTemplate;
+    }
+    
+   
 }

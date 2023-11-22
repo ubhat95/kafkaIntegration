@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum TOPIC {
-	USER_TOPIC("first_topic");
+	USER("user_topic"),
+	WIKIMEDIA("wikimedia_topic");
 	
 	String name;
 	
