@@ -3,8 +3,6 @@ package com.uttam.kafka.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uttam.kafka.dto.User;
-
 @Service
 public class KafkaService {
 	
@@ -18,9 +16,8 @@ public class KafkaService {
 		
 	}
 
-	public boolean sendWithKafkaProducer(String userkafkatopic, String string, User msg) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean sendWithKafkaProducer(String userkafkatopic, String key, Object msg) {
+		return kafkaProducerService.sendWithKafkaProducer(userkafkatopic, key, msg);
 	}
 
 }
