@@ -1,14 +1,12 @@
 package com.uttam.kafka.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uttam.kafka.service.wikiMediaService;
+import com.uttam.kafka.service.WikiMediaService;
 
 @Component
 @RestController
@@ -17,10 +15,10 @@ public class wikiMediaOpenSearchController {
 	
 	
 	@Autowired
-	wikiMediaService wikiMediaService;
+	WikiMediaService wikiMediaService;
 	
-	@PostMapping("/run")
-	public List<String> produceAndConsume(@RequestBody List<String> messages) {
-		return wikiMediaService.produceAndConsume(messages);
+	@GetMapping("/run")
+	public void produceAndConsume() throws InterruptedException {
+		 wikiMediaService.produceAndConsume();
 	}
 }

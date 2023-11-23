@@ -10,7 +10,10 @@ import com.uttam.kafka.enums.KafkaConsumerGroup;
 import com.uttam.kafka.enums.TOPIC;
 import com.uttam.kafka.service.KafkaService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class OpenSearchConsumer {
 	
 	private final static String OPENSEARCH_TOPIC = TOPIC.WIKIMEDIA.getName();
@@ -28,12 +31,12 @@ public class OpenSearchConsumer {
 	    
 	    for(int i=0;i<consumersCount;i++) {
 	    	kafkaService.registerConsumer(OPENSEARCH_TOPIC, KafkaConsumerGroup.OPEN_SEARCH_GROUP, String.class, message ->{
-	    	doSomething(message);	
+	    	callBackFunction(message);	
 	    	}, null, 1000l, properties, true);
 	    }
 	}
 	
-	public void doSomething(String message) {
-		System.out.println("pulled "+ message);
+	public void callBackFunction(String message) {
+		log.info("consumed {}", message);
 	}
 }
