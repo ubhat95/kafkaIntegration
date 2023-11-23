@@ -8,7 +8,7 @@ import com.uttam.kafka.dto.User;
 @Component
 public class UserKafkaConsumer {
 	
-	@KafkaListener(topics = "first_topic", 
+	@KafkaListener(topics = "user_topic", 
 			groupId = "userRegistrationGroup", 
 			containerFactory = "kafkaListenerContainerFactory",
 			concurrency="3" )

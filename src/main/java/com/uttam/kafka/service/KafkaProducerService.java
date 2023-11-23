@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.uttam.kafka.producer.KafkaObjectSerializer;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -47,7 +48,7 @@ public class KafkaProducerService {
 	}
 	
 	public boolean sendWithKafkaProducer(String topic, String key, Object msg) {
-		try{
+	
 			ProducerRecord<String, Object> record = new ProducerRecord<>(topic,key, msg);
 			producer.send(record, new Callback() {
 				
@@ -55,15 +56,17 @@ public class KafkaProducerService {
 				public void onCompletion(RecordMetadata metadata, Exception e) {
 					// executed when record is successfully sent or exception is thrown
 					if(e==null) {
-						log.info("successfully produced Topic : {} , Partition: {}, Offset: {}, TimeStamp: {}",
+						log.info("Topic : {} , Partition: {}, Offset: {}, TimeStamp: {}",
 								metadata.topic(), metadata.partition(), metadata.offset(), metadata.timestamp());
 					}
 				}
 				});
-			}	catch (Exception e) {
-			 e.printStackTrace();
-			return false;		
-		}
-		return true;
+			return true;
+			
+	}
+	
+	@PreDestroy
+	void close() {
+		if(producer!=null)producer.close();
 	}
 }
