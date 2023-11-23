@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.launchdarkly.eventsource.EventSource;
-import com.uttam.kafka.consumer.OpenSearchConsumer;
 
 @Service
 public class WikiMediaService {
@@ -20,14 +19,15 @@ public class WikiMediaService {
 	WikiMediaEventHandler wikiMediaEventHandler;
 	
 	@Autowired
-	OpenSearchConsumer openSearchConsumer;
+	OpenSearchService openSearchService;
 	
 	public void produceAndConsume() throws InterruptedException{
-		openSearchConsumer.register();
+		
+		openSearchService.register();
         EventSource.Builder builder = new EventSource.Builder(wikiMediaEventHandler, URI.create(wikimediaUrl));
         EventSource eventSource = builder.build();
         eventSource.start();
-        TimeUnit.MINUTES.sleep(1);
+        TimeUnit.SECONDS.sleep(15);
         eventSource.close();
 	}
 }

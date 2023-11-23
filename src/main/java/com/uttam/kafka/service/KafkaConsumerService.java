@@ -26,18 +26,16 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class KafkaConsumerService {
-	
-	
 
 	@Autowired
 	KafkaConsumerFactory kafkaConsumerFactory;
-	
+
 	@Setter
 	private List<Thread> gracefulShutdown = new ArrayList<Thread>();
-	
+
 	@Setter
 	private ReentrantLock gracefulLock = new ReentrantLock();
-	
+
 	private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
 	public <T> void registerConsumer(String topic, KafkaConsumerGroup consumerGroup, Class<T> clazz,
@@ -47,16 +45,17 @@ public class KafkaConsumerService {
 		Runnable consumerProcessor = () -> {
 			try (KafkaConsumer<String, byte[]> kafkaConsumer = kafkaConsumerFactory
 					.getKafkaConsumer(consumerGroup.name(), properties)) {
-				
+
 				kafkaConsumer.subscribe(Collections.singleton(topic));
 				log.info("Thread {} to consume message from kafka {} topic started", Thread.currentThread().getName(),
 						topic);
-				
+
 				do {
-					pollAndProcessConsumedRecords(clazz, callBack, batchCallBack, commitOffset, kafkaConsumer, milliseconds);
+					pollAndProcessConsumedRecords(clazz, callBack, batchCallBack, commitOffset, kafkaConsumer,
+							milliseconds);
 
 				} while (!Thread.interrupted());
-			
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -65,12 +64,31 @@ public class KafkaConsumerService {
 	}
 
 	private <T> void pollAndProcessConsumedRecords(Class<T> clazz, Consumer<T> callBack,
-			Consumer<List<T>> batchCallBack, boolean commitOffset, KafkaConsumer<String, byte[]> kafkaConsumer, long milliseconds) {
+			Consumer<List<T>> batchCallBack, boolean commitOffset, KafkaConsumer<String, byte[]> kafkaConsumer,
+			long milliseconds) {
 		ConsumerRecords<String, byte[]> consumerRecords = kafkaConsumer.poll(Duration.ofMillis(milliseconds));
 		if (callBack != null) {
 			consumerRecords.forEach(i -> processRecord(i, clazz, callBack));
+		} else if (batchCallBack != null) {
+			processRecord(consumerRecords, clazz, batchCallBack);
 		}
+		if(commitOffset)kafkaConsumer.commitSync();
+	}
 
+	private <T> void processRecord(ConsumerRecords<String, byte[]> records, Class<T> clazz,
+			Consumer<List<T>> batchCallBack) {
+		List<T> dataList = new ArrayList<T>();
+		
+		for(ConsumerRecord<String,byte[]> cR : records) {
+			try {
+			
+				T data = objectMapper.readValue(cR.value(), clazz);
+				dataList.add(data);
+			}catch (Exception e) {
+			log.error("Exception while processing consumer record");
+			}
+		}
+		batchCallBack.accept(dataList);
 	}
 
 	private <T> void processRecord(ConsumerRecord<String, byte[]> record, Class<T> clazz, Consumer<T> callBack) {
@@ -79,8 +97,6 @@ public class KafkaConsumerService {
 			callBack.accept(data);
 		} catch (Exception e) {
 			log.error("Exception while processing consumer record");
-		} finally {
-
 		}
 	}
 
@@ -89,11 +105,11 @@ public class KafkaConsumerService {
 		try {
 			gracefulLock.lock();
 			gracefulShutdown.add(thread);
-		}finally {
+		} finally {
 			gracefulLock.unlock();
 		}
 		thread.start();
-		
+
 	}
 
 	private Thread getThread(Runnable consumerProcessor, String threadName) {
@@ -105,7 +121,7 @@ public class KafkaConsumerService {
 
 	@PreDestroy
 	void close() {
-		for(Thread thread : gracefulShutdown) {
+		for (Thread thread : gracefulShutdown) {
 			log.info("Shutting down thread {} gracefully", thread.getName());
 			thread.interrupt();
 		}

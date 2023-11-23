@@ -56,8 +56,8 @@ public class KafkaProducerService {
 				public void onCompletion(RecordMetadata metadata, Exception e) {
 					// executed when record is successfully sent or exception is thrown
 					if(e==null) {
-						log.info("Topic : {} , Partition: {}, Offset: {}, TimeStamp: {}",
-								metadata.topic(), metadata.partition(), metadata.offset(), metadata.timestamp());
+						//log.info("Topic : {} , Partition: {}, Offset: {}, TimeStamp: {}",
+						//		metadata.topic(), metadata.partition(), metadata.offset(), metadata.timestamp());
 					}
 				}
 				});
