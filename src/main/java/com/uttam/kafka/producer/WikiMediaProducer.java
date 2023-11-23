@@ -1,6 +1,8 @@
 package com.uttam.kafka.producer;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,9 @@ public class WikiMediaProducer {
 	
 	private final static String WK_MEDIA = TOPIC.WIKIMEDIA.getName();
 	
-	public Set<String> pushKafkaMsgGetFailedIds(Set<String> messages){
+	public List<String> pushKafkaMsgGetFailedIds(List<String> messages){
 		
-		Set<String> failedIds = new HashSet<>();
+		List<String> failedIds = new ArrayList<String>();
 		if(!CollectionUtils.isEmpty(messages)) {
 			messages.forEach( msg -> {
 				boolean successful = kafkaService.sendWithKafkaProducer(WK_MEDIA, msg, msg);

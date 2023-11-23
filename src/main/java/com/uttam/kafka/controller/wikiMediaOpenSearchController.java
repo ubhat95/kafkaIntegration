@@ -23,7 +23,7 @@ public class wikiMediaOpenSearchController {
 	wikiMediaService wikiMediaService;
 	
 	@PostMapping("/run")
-	public Set<String> produceAndConsume(@RequestBody List<String> messages) {
+	public List<String> produceAndConsume(@RequestBody List<String> messages) {
 		return wikiMediaService.produceAndConsume(messages);
 	}
 }

@@ -27,9 +27,9 @@ public class OpenSearchConsumer {
 		properties.setProperty("bootstrap.servers", "localhost:9092");
 	    
 	    for(int i=0;i<consumersCount;i++) {
-	    	kafkaService.registerConsumer(OPENSEARCH_TOPIC, KafkaConsumerGroup.OPEN_SEARCH_GROUP,String.class, message ->{
+	    	kafkaService.registerConsumer(OPENSEARCH_TOPIC, KafkaConsumerGroup.OPEN_SEARCH_GROUP, String.class, message ->{
 	    	doSomething(message);	
-	    	},null,null,properties, true);
+	    	}, null, 1000l, properties, true);
 	    }
 	}
 	

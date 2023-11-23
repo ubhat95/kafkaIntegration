@@ -19,8 +19,8 @@ public class wikiMediaService {
 	@Autowired
 	OpenSearchConsumer openSearchConsumer;
 	
-	public Set<String> produceAndConsume(List<String> messages){
+	public List<String> produceAndConsume(List<String> messages){
 		openSearchConsumer.register();
-		return wikiMediaProducer.pushKafkaMsgGetFailedIds(new HashSet<>(messages));
+		return wikiMediaProducer.pushKafkaMsgGetFailedIds(messages);
 	}
 }

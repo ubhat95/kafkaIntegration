@@ -1,6 +1,5 @@
 package com.uttam.kafka.service;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
@@ -30,8 +29,8 @@ public class KafkaService {
 	}
 
 	public <T> void registerConsumer(String topic, KafkaConsumerGroup consumerGroup, Class<T> clazz, Consumer<T> callBack,
-			Consumer<List<T>> batchCallBack, Duration seconds, Properties properties, boolean commitOffset) {
-		 kafkaConsumerService.registerConsumer(topic,consumerGroup,clazz,callBack,batchCallBack,seconds,properties,commitOffset);
+			Consumer<List<T>> batchCallBack, long milliseconds, Properties properties, boolean commitOffset) {
+		 kafkaConsumerService.registerConsumer(topic, consumerGroup, clazz, callBack, batchCallBack, milliseconds, properties, commitOffset);
 		
 	}
 
