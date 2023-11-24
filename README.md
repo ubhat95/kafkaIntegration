@@ -1,6 +1,7 @@
 # Kafka SpringBoot
 
 This spring boot app allows you to rake in recent changes from Wikimedia, produces it onto Kafka, and has an OpenSearch consumer indexing it.
+Has sample producer and consumer using both Kafka API and spring-boot annotations <br<br>
 ![image](https://github.com/ubhat95/kafkaSpringBoot/assets/53697553/46cefa40-3599-4980-8a2b-032a8c6c7460)
 
 Steps:  
