@@ -1,3 +1,17 @@
+# Kafka SpringBoot
+
+This spring boot app allows you to rake in recent changes from Wikimedia, produces it onto Kafka, and has an OpenSearch consumer indexing it.
+![image](https://github.com/ubhat95/kafkaSpringBoot/assets/53697553/46cefa40-3599-4980-8a2b-032a8c6c7460)
+
+Steps:  
+1.   Install[ Docker Desktop](https://www.docker.com/products/docker-desktop/) <br>
+2.   Run  `docker compose -f  opensearch-docker.yml up`  to start openSearch on port 9200, dev_tools  available on `http://localhost:5601/app/dev_tools#/console` <br>
+3.   Run  `docker compose -f  zk-single-kafka-single.yml up` to start kafka on 9092, you can find the commands at the end. <br>
+4.   Run project as springboot application and `http://localhost:8080/wmos/run` on [postman](https://www.postman.com/downloads/) <br>
+
+
+
+
 # Kafka Integration
 
 more kafka docker at  : https://www.conduktor.io/kafka/starting-kafka/
