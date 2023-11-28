@@ -7,7 +7,7 @@ Has sample producer and consumer using both Kafka API and spring-boot annotation
 Steps:  
 1.   Install[ Docker Desktop](https://www.docker.com/products/docker-desktop/) <br>
 2.   Run  `docker compose -f  opensearch-docker.yml up`  to start openSearch on port 9200, dev_tools  available on `http://localhost:5601/app/dev_tools#/console` <br>
-3.   Run  `docker compose -f  zk-single-kafka-single.yml up` to start kafka on 9092, you can find the commands at the end. <br>
+3.   Run  `docker compose -f  zk-single-kafka-single.yml up` to start kafka on 9092, create wikimedia_topic you can find the commands at the end. <br>
 4.   Run project as springboot application and `http://localhost:8080/wmos/run` on [postman](https://www.postman.com/downloads/) <br>
 
 
