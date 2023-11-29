@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonParser;
 import com.uttam.kafka.enums.KafkaConsumerGroup;
-import com.uttam.kafka.enums.TOPIC;
+import com.uttam.kafka.enums.Topic;
 import com.uttam.kafka.restclient.OpenSearchRestClient;
 import com.uttam.kafka.service.KafkaService;
 
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OpenSearchConsumer {
 
-	private final static String OPENSEARCH_TOPIC = TOPIC.WIKIMEDIA.getName();
+	private final static String OPENSEARCH_TOPIC = Topic.WIKIMEDIA.getName();
 
 	@Value("${opensearch_consumer_count:1}")
 	private Integer consumersCount;

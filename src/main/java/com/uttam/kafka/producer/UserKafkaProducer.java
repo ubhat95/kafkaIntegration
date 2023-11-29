@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.uttam.kafka.dto.User;
-import com.uttam.kafka.enums.TOPIC;
+import com.uttam.kafka.enums.Topic;
 import com.uttam.kafka.service.KafkaService;
 
 @Component
@@ -16,7 +16,7 @@ public class UserKafkaProducer {
 	@Autowired
 	KafkaService kafkaService;
 	
-	private final static String USERKAFKATOPIC = TOPIC.USER.getName();
+	private final static String USERKAFKATOPIC = Topic.USER.getName();
 	
 	public Set<Integer> pushKafkaMsgGetFailedIds(Set<User> messages){
 		
