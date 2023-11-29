@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.launchdarkly.eventsource.EventSource;
+import com.uttam.kafka.commons.WikiMediaEventHandler;
 
 @Service
 public class WikiMediaService {
@@ -27,7 +28,7 @@ public class WikiMediaService {
         EventSource.Builder builder = new EventSource.Builder(wikiMediaEventHandler, URI.create(wikimediaUrl));
         EventSource eventSource = builder.build();
         eventSource.start();
-        TimeUnit.SECONDS.sleep(15);
+        TimeUnit.SECONDS.sleep(60);
         eventSource.close();
 	}
 }

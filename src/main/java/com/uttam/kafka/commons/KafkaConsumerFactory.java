@@ -1,4 +1,4 @@
-package com.uttam.kafka.consumer;
+package com.uttam.kafka.commons;
 
 import java.util.Properties;
 

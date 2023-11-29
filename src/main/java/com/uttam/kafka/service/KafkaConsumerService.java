@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.uttam.kafka.consumer.KafkaConsumerFactory;
+import com.uttam.kafka.commons.KafkaConsumerFactory;
 import com.uttam.kafka.enums.KafkaConsumerGroup;
 
 import jakarta.annotation.PreDestroy;

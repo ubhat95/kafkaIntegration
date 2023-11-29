@@ -1,4 +1,4 @@
-package com.uttam.kafka.service;
+package com.uttam.kafka.commons;
 
 import java.util.Collections;
 

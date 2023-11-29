@@ -16,12 +16,17 @@ import com.uttam.kafka.enums.Topic;
 public class FullSearchQueryFactory {
 
 	public SearchRequest formSearchQuery(String searchTerm, String index, String sortField) {
-		
+		QueryBuilder existsQuery = QueryBuilders.existsQuery("title");
+		QueryBuilder termQuery = QueryBuilders.termQuery("bot", false);
 		QueryBuilder multiMatchQuery = QueryBuilders.multiMatchQuery(searchTerm, "_all").field("title", 5).field("user",10);
 		//assigns weightage to certain domains altho not a strict filter, potentially rewrite code for a lot of structure and user tuning
         QueryBuilder shouldQuery = QueryBuilders.matchQuery("meta.domain", "simple.wikipedia.org").boost(2);
 
-		BoolQueryBuilder boolQuery = formBasicQuery().must(multiMatchQuery).should(shouldQuery).minimumShouldMatch(1);
+		BoolQueryBuilder boolQuery = formBasicQuery()
+										.must(multiMatchQuery)
+										.filter(existsQuery)
+										.filter(termQuery)
+										.should(shouldQuery).minimumShouldMatch(0);
 		return formSearchRequest(formSearchSourceBuilder(boolQuery, sortField, 5), Topic.getByName(index).getName());
 		
 	        // Build the search request

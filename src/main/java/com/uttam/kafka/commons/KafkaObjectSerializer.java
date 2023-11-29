@@ -1,4 +1,4 @@
-package com.uttam.kafka.producer;
+package com.uttam.kafka.commons;
 
 import org.apache.kafka.common.serialization.Serializer;
 

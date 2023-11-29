@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.uttam.kafka.producer.KafkaObjectSerializer;
+import com.uttam.kafka.commons.KafkaObjectSerializer;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
