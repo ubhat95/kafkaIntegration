@@ -1,4 +1,6 @@
 # Kafka SpringBoot
+TODO : integrate with OpenAI so the user can query opensearch index by letting gpt know what they want
+
 
 This spring boot app allows you to rake in recent changes from Wikimedia, produces it onto Kafka, and has an OpenSearch consumer indexing it.
 Has sample producer and consumer using both Kafka API and spring-boot annotations <br><br>
